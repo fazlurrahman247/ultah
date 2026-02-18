@@ -96,7 +96,7 @@ function createGlitter() {
 
 // Typing effect for name
 function typeName() {
-  const name = "Nida    Fauziyah    Tausiyah";
+  const name = "Nida    Fauziyah    Syahidah";
   const nameElement = document.getElementById("name");
 
   if (!nameElement) return;
