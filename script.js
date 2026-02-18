@@ -399,21 +399,67 @@ function initMainContent() {
   enableParallax();
 }
 
-// Show overlay if small screen
+// Show overlay if small screen and block mobile devices
 function checkDesktop() {
   const overlay = document.getElementById("mobileOverlay");
   if (!overlay) return;
-  if (window.innerWidth < 1000) {
+
+  // Check if it's a mobile device (screen width < 1000px)
+  const isMobile = window.innerWidth < 1000;
+
+  if (isMobile) {
+    // Show the overlay
     overlay.classList.add("show");
     overlay.setAttribute("aria-hidden", "false");
+
+    // Hide the main content if it exists
+    const intro = document.getElementById("intro");
+    const main = document.getElementById("main");
+    if (intro) intro.style.display = "none";
+    if (main) main.style.display = "none";
   } else {
     overlay.classList.remove("show");
     overlay.setAttribute("aria-hidden", "true");
   }
 }
 
+// Check if it's a mobile device and show alert
+function checkMobileAndAlert() {
+  // Detect mobile device using user agent or screen width
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    ) || window.innerWidth < 1000;
+
+  if (isMobile) {
+    // Show alert
+    alert(
+      "⚠️ Maaf, halaman ini hanya bisa dibuka di PC/Laptop!\n\nSilakan buka menggunakan komputer atau laptop untuk pengalaman terbaik.",
+    );
+
+    // Show overlay to block content
+    const overlay = document.getElementById("mobileOverlay");
+    if (overlay) {
+      overlay.classList.add("show");
+      overlay.setAttribute("aria-hidden", "false");
+    }
+
+    // Hide intro/main content
+    const intro = document.getElementById("intro");
+    const main = document.getElementById("main");
+    if (intro) intro.style.display = "none";
+    if (main) main.style.display = "none";
+
+    return true; // is mobile
+  }
+  return false; // not mobile
+}
+
 // Start when page loads
 window.onload = function () {
+  // Check for mobile and show alert first
+  checkMobileAndAlert();
+
   // Check if we're on intro page or content page
   const intro = document.getElementById("intro");
   const main = document.getElementById("main");
